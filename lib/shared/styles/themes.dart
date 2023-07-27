@@ -25,7 +25,7 @@ ThemeData lightTheme=ThemeData(
 
   ),
   bottomNavigationBarTheme: const BottomNavigationBarThemeData(
-    selectedItemColor: Colors.deepOrange,
+    selectedItemColor: default_color,
     type: BottomNavigationBarType.fixed,
     elevation: 30.0,
   ),
@@ -54,7 +54,7 @@ ThemeData darkTheme=ThemeData(
     elevation: 0.0,
   ),
   bottomNavigationBarTheme: const BottomNavigationBarThemeData(
-    selectedItemColor: Colors.deepOrange,
+    selectedItemColor: default_color,
     type: BottomNavigationBarType.fixed,
     elevation: 30.0,
   ),

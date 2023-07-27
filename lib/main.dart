@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shop_pp/layout/cubit/cubit.dart';
+import 'package:shop_pp/layout/shop_layout/shop_layout.dart';
 import 'package:shop_pp/modules/login/login_screen.dart';
 import 'package:shop_pp/modules/on_boarding/on_boarding_screen.dart';
 import 'package:shop_pp/shared/network/local/cacheHelper.dart';
@@ -16,16 +18,46 @@ void main() async{
   DioHelper.init();
   await CacheHelper.init();
   bool? isDark=CacheHelper.getData(key: 'isDark')??false;
-  bool? isEg=CacheHelper.getData(key: 'is_eg')??false;
 
-  runApp( MyApp(isDark));
+  Widget ?widget;
+
+  bool? onBoarding=CacheHelper.getData(key: 'onBoarding');
+  String? token=CacheHelper.getData(key: 'token');
+  print(token);
+  if (onBoarding!=null){
+    if(token!=null){
+      widget=ShopLayout();
+    }
+    else{
+      widget=LoginScreen();
+    }
+  }else{
+    widget=OnBoardingScreen();
+  }
+  runApp( MyApp(isDark:isDark!,startWidget:widget!));
 }
 class MyApp extends StatelessWidget {
-  const MyApp(this.isDark, {super.key});
+
+
+  final bool isDark;
+  final Widget startWidget;
+
+
+
+  const MyApp({
+    required this.isDark,
+    required this.startWidget,
+    Key? key,
+  }) : super(key: key);
 
   // This widget is the root of your application.
   @override
-  final bool isDark;
+
+
+
+
+
+
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
@@ -34,6 +66,7 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (BuildContext context) =>AppCubit()..changeAppMode(
           fromshard: isDark,
         ),),
+        BlocProvider(create: (BuildContext context) =>ShopCubit()..getHomeData()..getCategories()..getFav()),
       ],
       child: BlocConsumer<AppCubit,AppStates>(
         listener: (context,state){},
@@ -43,7 +76,7 @@ class MyApp extends StatelessWidget {
             theme: lightTheme,
             darkTheme:darkTheme,
             themeMode: AppCubit.get(context).isDark != true ? ThemeMode.light : ThemeMode.dark,
-            home:  LoginScreen(),
+            home: startWidget,
           );
         },
 

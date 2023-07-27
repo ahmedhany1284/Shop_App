@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:shop_pp/layout/shop_layout/shop_layout.dart';
 import 'package:shop_pp/modules/login/cubit/cubit.dart';
 import 'package:shop_pp/modules/login/cubit/states.dart';
 import 'package:shop_pp/modules/register/register.dart';
 import 'package:shop_pp/shared/components/components.dart';
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
+import 'package:shop_pp/shared/network/local/cacheHelper.dart';
 
 
 class LoginScreen extends StatelessWidget {
@@ -31,26 +33,17 @@ class LoginScreen extends StatelessWidget {
           if(state.loginModel.status!){
             print(state.loginModel.data?.token);
             print(state.loginModel.message);
-            Fluttertoast.showToast(
-                msg: state.loginModel.message!,
-                toastLength: Toast.LENGTH_LONG,
-                gravity: ToastGravity.BOTTOM,
-                timeInSecForIosWeb: 5,
-                backgroundColor: Colors.green,
-                textColor: Colors.white,
-                fontSize: 16.0
-            );
+            CacheHelper.saveData(
+                key: 'token',
+                value: state.loginModel.data?.token,
+            ).then((value) => {
+              navigateToAndFinish(context,ShopLayout(),)
+            });
           }else{
             print(state.loginModel.message);
-            Fluttertoast.showToast(
-                msg: state.loginModel.message!,
-                toastLength: Toast.LENGTH_LONG,
-                gravity: ToastGravity.BOTTOM,
-                timeInSecForIosWeb: 5,
-                backgroundColor: Colors.red,
-                textColor: Colors.white,
-                fontSize: 16.0
-            );
+            showToast(
+                massage: state.loginModel.message!,
+                state: ToastStates.ERROR,);
           }
         }
       },
