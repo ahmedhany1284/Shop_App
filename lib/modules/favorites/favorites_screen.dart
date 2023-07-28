@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shop_pp/layout/cubit/cubit.dart';
 import 'package:shop_pp/layout/cubit/states.dart';
-import 'package:shop_pp/models/models.dart';
+import 'package:shop_pp/models/favorites_model.dart';
+import 'package:shop_pp/models/on_boarding_model.dart';
 import 'package:shop_pp/shared/components/components.dart';
 import 'package:shop_pp/shared/components/constants.dart';
 
@@ -13,21 +14,31 @@ class FavoritesScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var cubit=ShopCubit.get(context);
-    return BlocConsumer<ShopCubit,ShopStates>(
-      listener: (context,state){},
-      builder: (context,state){
-        return ConditionalBuilder(
-            condition: state is! ShopLoadingGetFavStates,
-            builder: (context)=> ListView.separated(
-              itemBuilder: (context,index)=>buildFavItem(cubit.favModel!.data!.data[index],context),
-              separatorBuilder: (context,index)=>myDivider(),
-              itemCount: cubit.favModel!.data!.data.length,
-            ),
-            fallback:(context)=> Center(child: CircularProgressIndicator()),
-        );
+    return BlocConsumer<ShopCubit, ShopStates>(
+      listener: (context, state) {},
+      builder: (context, state) {
+        if (state is! ShopLoadingGetFavStates) {
+          if (cubit.favModel != null && cubit.favModel!.data != null) {
+            if (cubit.favModel!.data!.data.isNotEmpty) {
+              return ListView.separated(
+                itemBuilder: (context, index) =>
+                    buildFavItem(cubit.favModel!.data!.data[index], context),
+                separatorBuilder: (context, index) => myDivider(),
+                itemCount: cubit.favModel!.data!.data.length,
+              );
+            } else {
+              return is_null(context);
+            }
+          } else {
+            // Handle the case where favModel or its properties are null.
+            return is_null(context);
+          }
+        } else {
+          return Center(child: CircularProgressIndicator());
+        }
       },
+    );
 
-    );;
   }
 
 
@@ -135,4 +146,12 @@ class FavoritesScreen extends StatelessWidget {
       ),
     ),
   );
+
+  Widget is_null(context)=>Center(
+    child: Text(
+      'Favorites Screen',
+      style: Theme.of(context).textTheme.bodyText1,
+    ),
+  );
 }
+

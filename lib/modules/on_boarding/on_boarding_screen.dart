@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:shop_pp/models/models.dart';
+import 'package:shop_pp/models/on_boarding_model.dart';
 import 'package:shop_pp/modules/login/login_screen.dart';
 import 'package:shop_pp/shared/components/components.dart';
 import 'package:shop_pp/shared/components/constants.dart';

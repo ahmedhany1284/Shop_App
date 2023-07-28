@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shop_pp/layout/cubit/states.dart';
-import 'package:shop_pp/models/models.dart';
+import 'package:shop_pp/models/categories_model.dart';
+import 'package:shop_pp/models/change_favorites_model.dart';
+import 'package:shop_pp/models/favorites_model.dart';
+import 'package:shop_pp/models/home_model.dart';
+import 'package:shop_pp/models/on_boarding_model.dart';
 import 'package:shop_pp/modules/cateogries/cateogries_screen.dart';
 import 'package:shop_pp/modules/favorites/favorites_screen.dart';
 import 'package:shop_pp/modules/products/products_screen.dart';
@@ -130,7 +134,7 @@ class ShopCubit extends Cubit<ShopStates>{
 
       emit(ShopSuccessGetFavStates());
     }).catchError((error) {
-      print(error.toString());
+      print(' the error is --> ${error.toString()}');
       emit(ShopErrorGetFavStates());
     });
   }

@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shop_pp/layout/cubit/cubit.dart';
 import 'package:shop_pp/layout/cubit/states.dart';
-import 'package:shop_pp/models/models.dart';
+import 'package:shop_pp/models/categories_model.dart';
+import 'package:shop_pp/models/on_boarding_model.dart';
 import 'package:shop_pp/shared/components/components.dart';
 
 class CateogriesScreen extends StatelessWidget {

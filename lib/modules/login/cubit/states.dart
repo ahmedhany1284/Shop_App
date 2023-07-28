@@ -1,4 +1,5 @@
-import 'package:shop_pp/models/models.dart';
+import 'package:shop_pp/models/login_model.dart';
+import 'package:shop_pp/models/on_boarding_model.dart';
 
 abstract class LoginStates {}
 class LoginInitialState extends LoginStates{}
