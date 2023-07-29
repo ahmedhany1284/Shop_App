@@ -7,7 +7,7 @@ const default_color=Colors.blue;
 
 void SignOut(context){
   CacheHelper.removeData(key: 'token').then((value) => {
-    navigateToAndFinish(context,LoginScreen())
+    if(value==true) navigateToAndFinish(context,LoginScreen())
   });
 }
 

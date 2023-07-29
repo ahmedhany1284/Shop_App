@@ -9,18 +9,21 @@ class AppCubit extends Cubit<AppStates> {
   static AppCubit get(context) => BlocProvider.of(context);
 
   bool isDark = false;
-  bool is_eg=false;
 
   void changeAppMode({bool? fromshard }) {
     if(fromshard!=null){
       isDark=fromshard;
       emit(AppChangeModeState());
+      emit(AppChangeBottomModeState());
     }
     else{
       isDark = !isDark;
       CacheHelper.putData(key: 'isDark', value: isDark).then((value) {
+        print(' is dark --->  ${isDark}');
         emit(AppChangeModeState());
+        emit(AppChangeBottomModeState());
       });
     }
   }
+
 }

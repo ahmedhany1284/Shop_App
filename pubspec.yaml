@@ -48,6 +48,7 @@ dependencies:
   form_validator: ^2.1.1
   fluttertoast: ^8.2.2
   carousel_slider: ^4.2.1
+  curved_navigation_bar: ^1.0.3
 
 dev_dependencies:
   flutter_test:

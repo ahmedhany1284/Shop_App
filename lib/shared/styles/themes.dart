@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:shop_pp/shared/components/constants.dart';
 
 ThemeData lightTheme=ThemeData(
+    brightness: Brightness.light,
   primarySwatch:default_color,
   scaffoldBackgroundColor:Colors.white,
   appBarTheme: const AppBarTheme(
@@ -18,16 +19,11 @@ ThemeData lightTheme=ThemeData(
     ),
     systemOverlayStyle:SystemUiOverlayStyle(
       statusBarColor: Colors.black,
-      statusBarBrightness: Brightness.dark,
+      statusBarBrightness: Brightness.light,
     ),
     backgroundColor: Colors.white,
-    elevation: 0.0,
+    elevation: 20.0,
 
-  ),
-  bottomNavigationBarTheme: const BottomNavigationBarThemeData(
-    selectedItemColor: default_color,
-    type: BottomNavigationBarType.fixed,
-    elevation: 30.0,
   ),
     fontFamily: 'Jannah'
 );
@@ -36,6 +32,7 @@ ThemeData darkTheme=ThemeData(
   primarySwatch: default_color,
   scaffoldBackgroundColor: Colors.grey[900],
   appBarTheme: AppBarTheme(
+
     titleSpacing: 20.0,
     titleTextStyle: const TextStyle(
       color: Colors.white,
@@ -48,15 +45,11 @@ ThemeData darkTheme=ThemeData(
     ),
     systemOverlayStyle: const SystemUiOverlayStyle(
       statusBarColor: Colors.black,
-      statusBarBrightness: Brightness.light,
+      statusBarBrightness: Brightness.dark,
     ),
     backgroundColor: Colors.grey[900],
-    elevation: 0.0,
-  ),
-  bottomNavigationBarTheme: const BottomNavigationBarThemeData(
-    selectedItemColor: default_color,
-    type: BottomNavigationBarType.fixed,
     elevation: 30.0,
   ),
+  backgroundColor:Colors.grey[900] ,
   fontFamily: 'Jannah'
 );

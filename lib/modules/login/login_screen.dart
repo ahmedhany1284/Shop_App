@@ -4,9 +4,10 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:shop_pp/layout/shop_layout/shop_layout.dart';
 import 'package:shop_pp/modules/login/cubit/cubit.dart';
 import 'package:shop_pp/modules/login/cubit/states.dart';
-import 'package:shop_pp/modules/register/register.dart';
+import 'package:shop_pp/modules/register/register_screen.dart';
 import 'package:shop_pp/shared/components/components.dart';
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
+import 'package:shop_pp/shared/components/constants.dart';
 import 'package:shop_pp/shared/network/local/cacheHelper.dart';
 
 
@@ -14,7 +15,9 @@ class LoginScreen extends StatelessWidget {
 
 
   GlobalKey<FormState> formkey = GlobalKey<FormState>();
+  var emailController=TextEditingController();
 
+  var passwordController = TextEditingController();
   LoginScreen({super.key});
 
   @override
@@ -22,9 +25,7 @@ class LoginScreen extends StatelessWidget {
 
 
 
-    var emailController=TextEditingController();
 
-    var passwordController = TextEditingController();
     return BlocProvider(
       create: (BuildContext context)=>LoginCubit(),
       child: BlocConsumer<LoginCubit,LoginStates>(
@@ -37,7 +38,14 @@ class LoginScreen extends StatelessWidget {
                 key: 'token',
                 value: state.loginModel.data?.token,
             ).then((value) => {
-              navigateToAndFinish(context,ShopLayout(),)
+              token = state.loginModel?.data?.token ?? '',
+
+              navigateToAndFinish(context,ShopLayout(),),
+              print(state.loginModel.message),
+              showToast(
+              massage: state.loginModel.message!,
+              state: ToastStates.SUCCESS,
+              ),
             });
           }else{
             print(state.loginModel.message);
@@ -70,7 +78,6 @@ class LoginScreen extends StatelessWidget {
                       // ),
                       const SizedBox(height: 30.0,),
                       defaultFormField(
-                        readonly: false,
                         controller: emailController,
                         type: TextInputType.emailAddress,
                         validate: (String? value){
@@ -87,7 +94,6 @@ class LoginScreen extends StatelessWidget {
 
                       defaultFormField(
                         isPassword: LoginCubit.get(context).isPassword,
-                        readonly: false,
                         controller: passwordController,
                         suffix:  LoginCubit.get(context).suffix,
                         onSubmit: (value){
@@ -114,21 +120,21 @@ class LoginScreen extends StatelessWidget {
                       ),
                       const SizedBox(height: 30.0,),
 
-                      // ConditionalBuilder(
-                      //   condition: state is LoginLoadingState,
-                      //   builder: (context)=>Center(child: CircularProgressIndicator()),
-                      //   fallback: ( context)=> defaultButton(
-                      //     function: ()  {
-                      //       if (formkey.currentState!.validate()) {
-                      //         LoginCubit.get(context).userLogin(
-                      //           email: emailController.text,
-                      //           password: passwordController.text,
-                      //         );
-                      //       }
-                      //     },
-                      //     text: 'Login',
-                      //   ),
-                      // ),
+                      ConditionalBuilder(
+                        condition: state is LoginLoadingState,
+                        builder: (context)=>Center(child: CircularProgressIndicator()),
+                        fallback: ( context)=> defaultButton(
+                          function: ()  {
+                            if (formkey.currentState!.validate()) {
+                              LoginCubit.get(context).userLogin(
+                                email: emailController.text,
+                                password: passwordController.text,
+                              );
+                            }
+                          },
+                          text: 'Login',
+                        ),
+                      ),
 
                       const SizedBox(height: 15.0,),
                       Row(
@@ -140,7 +146,7 @@ class LoginScreen extends StatelessWidget {
                           ),
                           defaultTextButton(
                             function: (){
-                              navigateTo(context, const RegisterScreen());
+                              navigateTo(context,  RegisterScreen());
                             },
                             text: 'Register',
                           ),

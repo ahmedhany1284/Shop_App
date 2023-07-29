@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:shop_pp/layout/cubit/cubit.dart';
+import 'package:shop_pp/shared/components/constants.dart';
 
 void navigateTo(context, widget) => Navigator.push(
   context,
@@ -18,7 +20,6 @@ void navigateToAndFinish(context, widget) => Navigator.pushAndRemoveUntil(
 
 
 Widget defaultFormField({
-  required bool readonly,
   required TextEditingController controller,
   required TextInputType type,
   Function? onSubmit,
@@ -33,7 +34,6 @@ Widget defaultFormField({
   VoidCallback? suffixPressed,
 }) {
   return TextFormField(
-    readOnly: readonly,
     controller: controller,
     keyboardType: type,
     enabled: is_clickable,
@@ -71,7 +71,7 @@ Widget defaultButton({
         color: background,
       ),
       child: MaterialButton(
-        onPressed: function(),
+        onPressed: ()=>function(),
         child: Text(
           isUpperCase ? text.toUpperCase() : text,
           style: const TextStyle(
@@ -142,3 +142,112 @@ Widget myDivider() => Padding(
     color: Colors.grey[300],
   ),
 );
+
+
+
+Widget buildListProduct(model,context, {bool isOldPrice =true})=>Padding(
+  padding: const EdgeInsets.all(20.0),
+  child: Container(
+    width: 120.0,
+    height: 120.0,
+    child: Row(
+
+      children:
+      [
+        Stack(
+          alignment: AlignmentDirectional.bottomStart,
+          children: [
+            Image(
+              image: NetworkImage('${model?.image}'),
+              width: 120.0,
+              height: 120.0,
+              // fit: BoxFit.cover,
+            ),
+            model?.discount!=0 && isOldPrice?Container(
+              color: Colors.red,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 5.0),
+                child: Text(
+                  'DISCOUNT',
+                  style: TextStyle(
+                    fontSize: 10.0,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+            ):Text(''),
+          ],
+        ),
+        SizedBox(width: 20.0,),
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                '${model?.name}',
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                  height: 1.3,
+                ),
+              ),
+              Spacer(),
+              Row(
+                children: [
+                  Text(
+                    '${model?.price.toString()}',
+                    style: TextStyle(
+                      fontSize: 12.0,
+                      color: default_color,
+                    ),
+                  ),
+                  SizedBox(width: 5.0,),
+                  model?.discount!=0 && isOldPrice?Text(
+                    '${model?.oldPrice.round()}',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 10.0,
+                      color: Colors.grey,
+                      decoration: TextDecoration.lineThrough,
+                    ),
+                  ):Text(''),
+                  Spacer(),
+                  Container(
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black26,
+                          blurRadius: 4.0,
+                          offset: Offset(0, 2), // Adjust the offset to control the position of the shadow.
+                        ),
+                      ],
+                    ),
+                    child: CircleAvatar(
+                      radius: 15.5,
+                      backgroundColor: Colors.white,
+                      child: IconButton(
+                        onPressed: () {
+                          ShopCubit.get(context).change_fav(model!.id);
+                          print(model.id);
+                        },
+                        icon: Icon(
+
+                          ShopCubit.get(context).fav[model!.id]==true ?Icons.favorite:Icons.favorite_border,
+                          color: ShopCubit.get(context).fav[model!.id]==true?Colors.red:default_color,
+                          size: 14.0,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ],
+    ),
+  ),
+);
+
+

@@ -193,9 +193,11 @@ Widget buildCategoryItem(DataModel model)=>Container(
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(
+                  color: Colors.black,
                   height: 1.3,
                 ),
               ),
+              SizedBox(height: 5.0,),
               Row(
                 children: [
                   Text(
