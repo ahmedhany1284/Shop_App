@@ -31,7 +31,19 @@ class ShopLayout extends StatelessWidget {
         return  Scaffold(
           extendBody: true,
           appBar: AppBar(
-            title: const Text('Shop_App'),
+            leading: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Image.asset(
+                'assets/images/supermarket-icon-png-12.png',
+                width: 30.0,
+                height: 30.0,
+              ),
+            ),
+            title: Align(
+              alignment: Alignment(-1.2,0),
+                child: const Text(
+                    'Shop Hub'),
+            ),
             actions:
             [
               IconButton(
